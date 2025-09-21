@@ -26,24 +26,33 @@ class UserRegistrationForm(forms.Form):
     required_css_class = 'required'
     errorlist_css_class = 'errorlist'
     username = forms.CharField(max_length=32, help_text='''Letters, digits,
-                               period and underscore only.''')
+                                period and underscore only.''')
     email = forms.EmailField()
     password = forms.CharField(max_length=32, widget=forms.PasswordInput())
-    confirm_password = forms.CharField(max_length=32, widget=forms.PasswordInput())
+    confirm_password = forms.CharField(max_length=32, widget=forms.PasswordInput(), label="Confirm password")
     title = forms.ChoiceField(choices=title)
-    first_name = forms.CharField(max_length=32)
-    last_name = forms.CharField(max_length=32)
+    first_name = forms.CharField(max_length=32, label="First name")
+    last_name = forms.CharField(max_length=32, label="Last name")
     phone_number = forms.RegexField(regex=r'^.{10}$',
-                                    error_messages={'invalid': "Phone number must be entered \
-                                                  in the format: '9999999999'.\
-                                                 Up to 10 digits allowed."})
+                                      error_messages={'invalid': "Phone number must be entered \
+                                              in the format: '9999999999'.\
+                                           Up to 10 digits allowed."})
     institute = forms.CharField(max_length=128,
-                                help_text='Please write full name of your Institute/Organization')
+                                  help_text='Please write full name of your Institute/Organization')
     department = forms.ChoiceField(help_text='Department you work/study',
-                                   choices=department_choices)
+                                     choices=department_choices)
     location = forms.CharField(max_length=255, help_text="Place/City")
     state = forms.ChoiceField(choices=states)
-    how_did_you_hear_about_us = forms.ChoiceField(choices=source)
+    how_did_you_hear_about_us = forms.ChoiceField(choices=source, label="How did you hear about us")
+
+    # This is the method that adds the .form-control class to all fields
+    def __init__(self, *args, **kwargs):
+        super(UserRegistrationForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if field.widget.attrs.get('class'):
+                field.widget.attrs['class'] += ' form-control'
+            else:
+                field.widget.attrs['class'] = 'form-control'
 
     def clean_username(self):
         u_name = self.cleaned_data["username"]
@@ -61,7 +70,7 @@ class UserRegistrationForm(forms.Form):
         pwd = self.cleaned_data['password']
         if pwd.strip(PWD_CHARS):
             raise forms.ValidationError("Only letters, digits and punctuation\
-                                        are allowed in password")
+                                     are allowed in password")
         return pwd
 
     def clean_confirm_password(self):
@@ -131,13 +140,8 @@ class WorkshopForm(forms.ModelForm):
     """
     errorlist_css_class = 'errorlist'
 
-    def __init__(self, *args, **kwargs):
-        super(RegistrationForm, self).__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
-            if field.widget.attrs.get('class'):
-                field.widget.attrs['class'] += ' form-control'
-            else:
-                field.widget.attrs['class'] = 'form-control'
+    # The incorrect __init__ method has been removed from here.
+    # The styling is handled correctly by the widgets below.
 
     class Meta:
         model = Workshop
@@ -208,9 +212,9 @@ class ProfileForm(forms.ModelForm):
                    "key_expiry_time", "how_did_you_hear_about_us"]
 
     first_name = forms.CharField(max_length=30, widget=forms.TextInput(
-                    {'class': "form-control", 'placeholder': "First Name"}))
+        {'class': "form-control", 'placeholder': "First Name"}))
     last_name = forms.CharField(max_length=30, widget=forms.TextInput(
-                    {'class': "form-control", 'placeholder': "Last Name"}))
+        {'class': "form-control", 'placeholder': "Last Name"}))
 
     def __init__(self, *args, **kwargs):
         if 'user' in kwargs:
@@ -242,6 +246,4 @@ class ProfileForm(forms.ModelForm):
         self.fields['position'].widget.attrs.update(
             {'class': "form-control", 'placeholder': 'Position'}
         )
-        self.fields['location'].widget.attrs.update(
-            {'class': "form-control", 'placeholder': 'Location'}
-        )
+        self.fields['location'].widget.attrs
