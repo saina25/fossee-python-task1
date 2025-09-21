@@ -1,188 +1,113 @@
-{% extends 'workshop_app/base.html' %} {% block title %} Profile {% endblock %}
-{% csrf_token %} {% block content %}
+{% extends 'workshop_app/base.html' %}
 
-<div class="container">
-  {% if Workshops %}
-  <table class="table">
-    <tr>
-      <th>
-        <label for="id_first_name"><h5>First name:</h5></label>
-      </th>
-      <th>
-        <label for="id_first_name"
-          ><h5>{{ coordinator_profile.user.first_name }}</h5></label
-        >
-      </th>
-    </tr>
-    <tr>
-      <th>
-        <label for="id_last_name"><h5>Last name:</h5></label>
-      </th>
-      <th>
-        <label for="id_last_name"
-          ><h5>{{ coordinator_profile.user.last_name }}</h5></label
-        >
-      </th>
-    </tr>
-    <tr>
-      <th>
-        <label for="id_email"><h5>Email:</h5></label>
-      </th>
-      <th>
-        <label for="id_email"
-          ><h5>{{ coordinator_profile.user.email }}</h5></label
-        >
-      </th>
-    </tr>
-    <tr>
-      <th>
-        <label for="id_institute"><h5>Institute:</h5></label>
-      </th>
-      <th>
-        <label for="id_institute"
-          ><h5>{{ coordinator_profile.user.profile.institute }}</h5></label
-        >
-      </th>
-    </tr>
-    <tr>
-      <th>
-        <label for="id_phone_number"><h5>Phone Number:</h5></label>
-      </th>
-      <th>
-        <label for="id_phone_number"
-          ><h5>{{ coordinator_profile.user.profile.phone_number }}</h5></label
-        >
-      </th>
-    </tr>
-    <tr>
-      <th>
-        <label for="id_department"><h5>Department:</h5></label>
-      </th>
-      <th>
-        <label for="id_department"
-          ><h5>{{ coordinator_profile.user.profile.department }}</h5></label
-        >
-      </th>
-    </tr>
-    <tr>
-      <th>
-        <label for="id_location"><h5>Location:</h5></label>
-      </th>
-      <th>
-        <label for="id_location"
-          ><h5>{{ coordinator_profile.user.profile.location }}</h5></label
-        >
-      </th>
-    </tr>
-    <tr>
-      <th>
-        <label for="id_position"><h5>Position:</h5></label>
-      </th>
-      <th>
-        <label for="id_position"
-          ><h5>{{ coordinator_profile.user.profile.position }}</h5></label
-        >
-      </th>
-    </tr>
-  </table>
-  <br />
+{% block title %} Profile {% endblock %}
 
-  <div class="container">
-    <h2>Workshop Details</h2>
-    <table class="table">
-      <tr>
-        <th><label for="id_instructor_name">Instructor name</label></th>
-        <th><label for="id_workshop_date">Workshop date</label></th>
-        <th><label for="id_workshop_type">Workshop type</label></th>
-      </tr>
-      {% for workshop in Workshops %} {% if workshop.instructor %}
-      <tr>
-        <td>
-          <label for="id_instructor_name">{{ workshop.instructor }} </label>
-        </td>
-        <td><label for="id_workshop_date">{{ workshop.date }}</label></td>
-        <td>
-          <label for="id_workshop_type">{{ workshop.workshop_type }}</label>
-        </td>
-      </tr>
-      {% else %}
-      <tr>
-        <td><span class="badge badge-warning">Pending</span></td>
-        <td><label for="id_workshop_date">{{ workshop.date }}</label></td>
-        <td>
-          <label for="id_workshop_type">{{ workshop.workshop_type }}</label>
-        </td>
-      </tr>
-      {% endif %} {% endfor %}
-    </table>
-  </div>
-  <br /><br />
-  {% else %}
-  <form action="" method="post">
-    {% csrf_token %}
-    <div class="row justify-content-center form-group">
-      <div class="col-md-6">
-        <form action="" method="post">
-          <fieldset>
-            {% csrf_token %} {% if form.errors %} {% for field in form %} {% for
-            error in field.errors %}
-            <div class="alert alert-dismissible alert-danger">
-              <button type="button" class="close" data-dismiss="alert">
-                <i class="fa fa-close"></i>
-              </button>
-              <strong>{{field.label}} : {{ error|escape }}</strong>
-            </div>
-            {% endfor %} {% endfor %} {% for error in form.non_field_errors %}
-            <div class="alert alert-dismissible alert-danger">
-              <button type="button" class="close" data-dismiss="alert">
-                <i class="fa fa-close"></i>
-              </button>
-              <strong>{{field.label}} : {{ error|escape }}</strong>
-            </div>
-            {% endfor %} {% endif %}
-            <table class="table table-responsive-sm">
-              <tr>
-                <td>{{form.title}}</td>
-              </tr>
-              <tr>
-                <td>{{form.first_name}}</td>
-              </tr>
-              <tr>
-                <td>{{form.last_name}}</td>
-              </tr>
-              <tr>
-                <td>{{form.phone_number}}</td>
-              </tr>
-              <tr>
-                <td>{{form.institute}}</td>
-              </tr>
-              <tr>
-                <td>{{form.department}}</td>
-              </tr>
-              <tr>
-                <td>{{form.position}}</td>
-              </tr>
-              <tr>
-                <td>{{form.location}}</td>
-              </tr>
-              <tr>
-                <td>{{form.state}}</td>
-              </tr>
+{% block content %}
+
+    <div class="container">
+        {% if Workshops %}
+            <h2 class="mb-4">User Profile</h2>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th style="width: 25%;">First name:</th>
+                        <td>{{ coordinator_profile.user.first_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Last name:</th>
+                        <td>{{ coordinator_profile.user.last_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>{{ coordinator_profile.user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Institute:</th>
+                        <td>{{ coordinator_profile.user.profile.institute }}</td>
+                    </tr>
+                    <tr>
+                        <th>Phone Number:</th>
+                        <td>{{ coordinator_profile.user.profile.phone_number }}</td>
+                    </tr>
+                    <tr>
+                        <th>Department:</th>
+                        <td>{{ coordinator_profile.user.profile.department }}</td>
+                    </tr>
+                    <tr>
+                        <th>Location:</th>
+                        <td>{{ coordinator_profile.user.profile.location }}</td>
+                    </tr>
+                    <tr>
+                        <th>Position:</th>
+                        <td>{{ coordinator_profile.user.profile.position }}</td>
+                    </tr>
+                </tbody>
             </table>
-            <br />
-          </fieldset>
-          <button class="btn btn-success btn-lg" type="submit">
-            <i class="fa fa-pencil-square-o"></i>&nbsp;Update
-          </button>
-          <a
-            href="{% url 'workshop_app:index' %}"
-            class="btn btn-primary btn-lg"
-            >Cancel
-          </a>
-        </form>
-      </div>
+            <br>
+
+            <h2 class="mb-4">Workshop Details</h2>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Instructor Name</th>
+                        <th>Workshop Date</th>
+                        <th>Workshop Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for workshop in Workshops %}
+                    <tr>
+                        {% if workshop.instructor %}
+                            <td>{{ workshop.instructor }}</td>
+                        {% else %}
+                            <td><span class="badge bg-warning text-dark">Pending</span></td>
+                        {% endif %}
+                        <td>{{ workshop.date }}</td>
+                        <td>{{ workshop.workshop_type }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <br><br>
+
+        {% else %}
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h3 class="card-title text-center">Update Your Profile</h3>
+                            <form method="post">
+                                {% csrf_token %}
+
+                                {% if form.errors %}
+                                    <div class="alert alert-danger pb-0">
+                                        <p>Please correct the errors below:</p>
+                                        <ul>
+                                            {% for field in form %}
+                                                {% for error in field.errors %}
+                                                    <li>{{ error|escape }}</li>
+                                                {% endfor %}
+                                            {% endfor %}
+                                            {% for error in form.non_field_errors %}
+                                                <li>{{ error|escape }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                                
+                                <table class="table">
+                                    {{ form.as_table }}
+                                </table>
+                                <br>
+                                <div class="text-end">
+                                    <a href="{% url 'workshop_app:workshop_type_list' %}" class="btn btn-secondary">Cancel</a>
+                                    <button class="btn btn-primary" type="submit">Update Profile</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
-  </form>
-  {% endif %}
-</div>
 {% endblock %}

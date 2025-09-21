@@ -40,6 +40,12 @@
       rel="stylesheet"
     />
 
+    <style>
+      body {
+        background-color: #f2eeda; /* A very light grey */
+      }
+    </style>
+
     {% block extra-custom-scripts %} {% endblock %}
   </head>
 
@@ -48,10 +54,17 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container-fluid">
         <a
-          class="navbar-brand"
+          class="navbar-brand d-flex align-items-center"
           href="{% url 'workshop_app:workshop_type_list' %}"
-          >FOSSEE Workshops</a
         >
+          <img
+            src="https://fossee.in/sites/all/themes/software_responsive_theme/img/logo.png"
+            alt="FOSSEE Logo"
+            height="30"
+            class="me-2"
+          />
+          <span>FOSSEE Workshops</span>
+        </a>
         <button
           class="navbar-toggler"
           type="button"
