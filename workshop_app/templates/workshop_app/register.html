@@ -6,11 +6,10 @@
 
 {% block content %}
 <style>
-    /* This keeps the red asterisk for required fields */
+    /* This new rule adds the red asterisk to required labels */
     label.required::after {
-        content: "*";
-        color: red;
-        margin-left: 2px;
+        content: " *";
+        color: #dc3545;
     }
     .form-help-text {
         font-size: 0.875em;
@@ -38,7 +37,7 @@
 
                         {% for field in form %}
                             <div class="row mb-3">
-                                <label for="{{ field.id_for_label }}" class="col-md-4 col-form-label text-md-end fw-bold">{{ field.label }}</label>
+                                <label for="{{ field.id_for_label }}" class="col-md-4 col-form-label text-md-end fw-bold{% if field.field.required %} required{% endif %}">{{ field.label }}</label>
                                 <div class="col-md-8">
                                     {{ field }}
                                     
