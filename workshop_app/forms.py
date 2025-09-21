@@ -132,12 +132,12 @@ class WorkshopForm(forms.ModelForm):
     errorlist_css_class = 'errorlist'
 
     def __init__(self, *args, **kwargs):
-        kwargs.setdefault('label_suffix', '')
-        super(WorkshopForm, self).__init__(*args, **kwargs)
-        self.fields['tnc_accepted'].label = ""
-        self.fields['tnc_accepted'].required = True
-        self.fields['workshop_type'].label = "Workshop :"
-        self.fields['date'].label = "Workshop Date :"
+        super(RegistrationForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if field.widget.attrs.get('class'):
+                field.widget.attrs['class'] += ' form-control'
+            else:
+                field.widget.attrs['class'] = 'form-control'
 
     class Meta:
         model = Workshop

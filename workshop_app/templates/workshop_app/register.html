@@ -1,31 +1,66 @@
-{% extends 'workshop_app/base.html' %} {% block title %} Register {% endblock %}
+{% extends 'workshop_app/base.html' %}
+
+{% block title %}
+    Register
+{% endblock %}
+
 {% block content %}
-
-<style type="text/css">
-  label.required::after {
-    content: "*";
-    color: red;
-  }
-
-  .errorlist {
-    color: red;
-  }
+<style>
+    /* This keeps the red asterisk for required fields */
+    label.required::after {
+        content: "*";
+        color: red;
+        margin-left: 2px;
+    }
+    .form-help-text {
+        font-size: 0.875em;
+        color: #dc3545; /* Red for help text */
+    }
+    .errorlist {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        font-size: 0.875em;
+        color: #dc3545; /* Red for errors */
+    }
 </style>
 
 <div class="container">
-  <br />
-  <h3>Coordinator Registration Form</h3>
-  <br />
-  <form action="" method="post">
-    {% csrf_token %}
-    <table class="table">
-      {{ form.as_table }}
-    </table>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card my-4 shadow-sm">
+                <div class="card-body p-4">
 
-    <button class="btn btn-primary w-100" type="submit">Register</button>
-  </form>
-  <br />
-  <!-- Activate when Instructor registeration starts -->
-  <br />
+                    <h3 class="card-title text-center mb-4">Coordinator Registration Form</h3>
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        {% for field in form %}
+                            <div class="row mb-3">
+                                <label for="{{ field.id_for_label }}" class="col-md-4 col-form-label text-md-end fw-bold">{{ field.label }}</label>
+                                <div class="col-md-8">
+                                    {{ field }}
+                                    
+                                    {% if field.help_text or field.errors %}
+                                    <div class="form-help-text mt-1">
+                                        {{ field.help_text }}
+                                        {{ field.errors }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <div class="row mt-4">
+                            <div class="col-12 text-center">
+                                <button class="btn btn-primary px-5" type="submit">Register</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
