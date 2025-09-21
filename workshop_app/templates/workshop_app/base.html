@@ -44,6 +44,9 @@
       body {
         background-color: #f2eeda; /* A very light grey */
       }
+      .footer {
+        position: relative; /* This overrides any conflicting 'fixed' positioning */
+      }
     </style>
 
     {% block extra-custom-scripts %} {% endblock %}
@@ -181,7 +184,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
-  <footer class="footer mt-auto py-2 bg-dark text-white">
+  <footer class="footer mt-auto py-1 bg-dark text-white">
     <div class="container text-center">
       <img
         src="https://upload.wikimedia.org/wikipedia/en/1/1d/Indian_Institute_of_Technology_Bombay_Logo.svg"
